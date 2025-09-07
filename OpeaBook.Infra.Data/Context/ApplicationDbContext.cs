@@ -11,7 +11,7 @@ namespace OpeaBook.Infra.Data.Context
         {
         }
 
-        public DbSet<Livro> Livros  { get; set; }
+        public DbSet<Livro> Livros { get; set; }
         public DbSet<Emprestimo> Emprestimos { get; set; }
 
 
@@ -21,3 +21,4 @@ namespace OpeaBook.Infra.Data.Context
             // Configurações adicionais do modelo podem ser feitas aqui
         }
     }
+}
