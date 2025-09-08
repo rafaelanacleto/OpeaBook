@@ -1,60 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OpeaBook.Domain.Base;
 using OpeaBook.Infra.Data.Context;
 using OpeaBook.Infra.Data.Repositories.Interfaces;
-using System;
+using OpeaBook.Infra.Data;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace OpeaBook.Infra.Data.Repositories
+namespace OpeaBook.Infrastructure.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
+    public class Repository<T> : IRepository<T> where T : class
     {
+        protected readonly ApplicationDbContext _dbContext;
+        protected readonly DbSet<T> _dbSet;
 
-        protected readonly ApplicationDbContext _context;
-
-        protected readonly DbSet<TEntity> _entities;
-
-        public Repository(ApplicationDbContext context)
+        public Repository(ApplicationDbContext dbContext)
         {
-            _context = context;
-            _entities = _context.Set<TEntity>();
+            _dbContext = dbContext;
+            _dbSet = _dbContext.Set<T>();
         }
 
-        public Task AddAsync(TEntity entity)
+        public virtual async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
-        public Task DeleteAsync(Guid id)
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
+        }
+
+        public virtual async Task AddAsync(T entity)
+        {
+            await _dbSet.AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public virtual async Task UpdateAsync(T entity)
+        {
+            _dbSet.Update(entity);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public virtual async Task DeleteAsync(T entity)
+        {
+            _dbSet.Remove(entity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TEntity>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<TEntity> GetById(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(TEntity entity)
         {
             throw new NotImplementedException();
         }

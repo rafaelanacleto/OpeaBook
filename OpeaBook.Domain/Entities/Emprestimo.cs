@@ -1,33 +1,40 @@
-using OpeaBook.Domain.Base;
+using System;
 
 namespace OpeaBook.Domain.Entities
 {
-    public class Emprestimo : Entity
+    public enum EmprestimoStatus
     {
-        public Guid LivroId { get; private set; }
+        Ativo,
+        Devolvido
+    }
+
+    public class Emprestimo
+    {
+        public int Id { get; private set; }
+        public int LivroId { get; private set; }
         public DateTime DataEmprestimo { get; private set; }
         public DateTime? DataDevolucao { get; private set; }
-        public StatusEnum Status { get; private set; }
+        public EmprestimoStatus Status { get; private set; }
 
-        public Emprestimo(Livro livro)
+        // Construtor privado para ser utilizado apenas pelo ORM (Entity Framework)
+        private Emprestimo() { }
+
+        public Emprestimo(int livroId)
         {
-            if (livro == null)
-                throw new ArgumentNullException(nameof(livro));
-
-            livro.RealizarEmprestimo(); // lança exceção se não houver exemplar disponível
-
-            LivroId = livro.Id;
+            LivroId = livroId;
             DataEmprestimo = DateTime.Now;
-            Status = StatusEnum.Ativo;
+            Status = EmprestimoStatus.Ativo;
         }
 
-        public void RealizarDevolucao(Livro livro)
+        public void Devolver()
         {
-            if (Status == StatusEnum.Devolvido)
-                throw new InvalidOperationException("Livro já foi devolvido.");
+            if (Status == EmprestimoStatus.Devolvido)
+            {
+                throw new InvalidOperationException("Este empréstimo já foi devolvido.");
+            }
 
             DataDevolucao = DateTime.Now;
-            Status = StatusEnum.Devolvido;
+            Status = EmprestimoStatus.Devolvido;
         }
     }
 }

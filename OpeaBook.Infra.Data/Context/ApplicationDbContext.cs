@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OpeaBook.Domain.Entities;
+using System.Reflection.Emit;
 
 namespace OpeaBook.Infra.Data.Context
 {
@@ -18,7 +19,16 @@ namespace OpeaBook.Infra.Data.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Configurações adicionais do modelo podem ser feitas aqui
+
+            // Configuração das entidades, se necessário.
+            // Exemplo:
+            builder.Entity<Livro>().HasKey(l => l.Id);
+            builder.Entity<Livro>().Property(l => l.Titulo).IsRequired();
+            builder.Entity<Livro>().Property(l => l.Autor).IsRequired();
+
+            builder.Entity<Emprestimo>().HasKey(e => e.Id);
+            builder.Entity<Emprestimo>().Property(e => e.DataEmprestimo).IsRequired();
+            builder.Entity<Emprestimo>().Property(e => e.Status).IsRequired();
         }
     }
 }

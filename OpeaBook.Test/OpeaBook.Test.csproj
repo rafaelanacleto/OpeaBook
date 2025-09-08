@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OpeaBook.Application\OpeaBook.Application.csproj" />
+    <ProjectReference Include="..\OpeaBook.Domain\OpeaBook.Domain.csproj" />
+    <ProjectReference Include="..\OpeaBook.Infra.CrossCutting\OpeaBook.Infra.CrossCutting.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

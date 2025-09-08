@@ -9,12 +9,11 @@ namespace OpeaBook.Infra.Data.Repositories.Interfaces
 {
     public interface IRepository<T> : IDisposable where T : class
     {
+        Task<T> GetByIdAsync(int id);
+        Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
         Task UpdateAsync(T entity);
-        Task DeleteAsync(Guid id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T> GetById(Guid id);
-        Task<IEnumerable<T>> SearchAsync(Expression<Func<T, bool>> predicate);
+        Task DeleteAsync(T entity);
 
     }
 }
