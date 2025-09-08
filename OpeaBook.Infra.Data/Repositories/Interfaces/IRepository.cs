@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OpeaBook.Infra.Data.Repositories.Interfaces
 {
-    public interface IRepository<T> : IDisposable where T : class
+    public interface IRepository<T> where T : class
     {
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();

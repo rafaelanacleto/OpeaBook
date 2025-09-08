@@ -45,10 +45,6 @@ namespace OpeaBook.Infrastructure.Repositories
             _dbSet.Remove(entity);
             await _dbContext.SaveChangesAsync();
         }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

@@ -16,6 +16,7 @@ public class EmprestimosController : ControllerBase
         _emprestimoService = emprestimoService;
     }
 
+
     [HttpPost]
     public async Task<ActionResult<Emprestimo>> SolicitarEmprestimo([FromBody] int livroId)
     {
