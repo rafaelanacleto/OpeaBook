@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using OpeaBook.Application.Services;
 using OpeaBook.Infra.Data.Context;
+using OpeaBook.Infra.Data.Repositories;
+using OpeaBook.Infra.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+// Registra os repositórios (Injeção de Dependência)
+builder.Services.AddScoped<ILivroRepository, LivroRepository>();
+builder.Services.AddScoped<IEmprestimoRepository, EmprestimoRepository>();
+
+// Registra os serviços de aplicação (Injeção de Dependência)
+builder.Services.AddScoped<LivroService>();
+builder.Services.AddScoped<EmprestimoService>();
 
 var app = builder.Build();
 
